@@ -27,13 +27,14 @@ Version: 10/26/2020
 
 """
 
+import transforms3d 
+import transforms3d._gohlketransforms
 import rclpy
 import rclpy.node
 from rclpy.qos import qos_profile_sensor_data
 from cv_bridge import CvBridge
 import numpy as np
 import cv2
-import tf_transformations
 from sensor_msgs.msg import CameraInfo
 from sensor_msgs.msg import Image
 from geometry_msgs.msg import PoseArray, Pose
@@ -194,7 +195,7 @@ class ArucoNode(rclpy.node.Node):
 
                 rot_matrix = np.eye(4)
                 rot_matrix[0:3, 0:3] = cv2.Rodrigues(np.array(rvecs[i][0]))[0]
-                quat = tf_transformations.quaternion_from_matrix(rot_matrix)
+                quat = transforms3d._gohlketransforms.quaternion_from_matrix(rot_matrix)
 
                 pose.orientation.x = quat[0]
                 pose.orientation.y = quat[1]
