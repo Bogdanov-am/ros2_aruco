@@ -136,6 +136,7 @@ class ArucoNode(rclpy.node.Node):
         self.create_subscription(
             Image, image_topic, self.image_callback, qos_profile_sensor_data
         )
+        
 
         # Set up publishers
         self.poses_pub = self.create_publisher(PoseArray, "aruco_poses", 10)
@@ -189,25 +190,25 @@ class ArucoNode(rclpy.node.Node):
                 )
             for i, marker_id in enumerate(marker_ids):
                 pose = Pose()
-                pose.position.x = tvecs[i][0][0]
+                pose.position.x = tvecs[i][0][0] 
                 pose.position.y = tvecs[i][0][1]
                 pose.position.z = tvecs[i][0][2]
 
                 rot_matrix = np.eye(4)
                 rot_matrix[0:3, 0:3] = cv2.Rodrigues(np.array(rvecs[i][0]))[0]
-                quat = transforms3d._gohlketransforms.quaternion_from_matrix(rot_matrix)
-
-                pose.orientation.x = quat[0]
-                pose.orientation.y = quat[1]
-                pose.orientation.z = quat[2]
-                pose.orientation.w = quat[3]
+                quat = transforms3d._gohlketransforms.quaternion_from_matrix(rot_matrix, False)
+                
+                pose.orientation.x = quat[1]
+                pose.orientation.y = quat[2]
+                pose.orientation.z = quat[3]
+                pose.orientation.w = quat[0]
 
                 pose_array.poses.append(pose)
                 markers.poses.append(pose)
                 markers.marker_ids.append(marker_id[0])
 
             self.poses_pub.publish(pose_array)
-            self.markers_pub.publish(markers)
+            # self.markers_pub.publish(markers)
 
 
 def main():
