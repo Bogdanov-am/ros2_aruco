@@ -15,7 +15,12 @@ setup(
         (os.path.join('share', package_name, 'launch'), glob('launch/*.launch.py')),
         (os.path.join('share', package_name, 'config'), glob('config/*.yaml'))
     ],
-    install_requires=['setuptools'],
+    install_requires=[
+        'setuptools',
+        'transforms3d==0.4.2',
+        'opencv-contrib-python==4.6.0.66',
+        'cv-bridge==3.2.1'
+        ],
     zip_safe=True,
     maintainer='Nathan Sprague',
     maintainer_email='nathan.r.sprague@gmail.com',
